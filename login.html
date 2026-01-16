@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Login | Zenith</title>
+    <title>Login | Zenith Asset</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="auth-page">
@@ -14,19 +14,27 @@
             <h3>Student Login</h3>
             <input type="email" id="logEmail" placeholder="Email Address">
             <input type="password" id="logPass" placeholder="Password">
+            <p style="text-align:right; margin-bottom:15px;">
+                <span onclick="showArea('reset')" style="color:#888; font-size:12px; cursor:pointer;">Lupa Password?</span>
+            </p>
             <button class="btn-auth" onclick="handleLogin()">MASUK</button>
-            <p style="margin-top:20px; font-size:13px;">Belum punya akun? <span style="color:var(--primary); cursor:pointer;" onclick="document.getElementById('login-area').style.display='none'; document.getElementById('reg-area').style.display='block';">Daftar</span></p>
+            <p style="margin-top:20px; font-size:13px; color:#888;">Belum punya akun? <span style="color:var(--primary); cursor:pointer;" onclick="showArea('reg')">Daftar</span></p>
         </div>
 
         <div id="reg-area" style="display:none;">
             <h3>Create Account</h3>
-            <input type="text" id="regName" placeholder="Full Name">
+            <input type="text" id="regName" placeholder="Nama Lengkap">
             <input type="email" id="regEmail" placeholder="Email">
-            <input type="password" id="regPass" placeholder="Password">
+            <input type="password" id="regPass" placeholder="Password (Min. 6 Karakter)">
             <button class="btn-auth" onclick="handleRegister()">DAFTAR</button>
-            <p style="margin-top:20px; font-size:13px;">Sudah punya akun? <span style="color:var(--primary); cursor:pointer;" onclick="location.reload();">Login</span></p>
+            <p style="margin-top:20px; font-size:13px; color:#888;">Sudah punya akun? <span style="color:var(--primary); cursor:pointer;" onclick="showArea('login')">Login</span></p>
+        </div>
+
+        <div id="reset-area" style="display:none;">
+            <h3>Reset Password</h3>
+            <p style="font-size:12px; color:#888; margin-bottom:15px;">Kami akan mengirimkan link reset ke email Anda.</p>
+            <input type="email" id="resetEmail" placeholder="Masukkan Email Terdaftar">
+            <button class="btn-auth" onclick="handleResetPassword()">KIRIM LINK RESET</button>
+            <p style="margin-top:20px; font-size:13px;"><span style="color:var(--primary); cursor:pointer;" onclick="showArea('login')">Kembali ke Login</span></p>
         </div>
     </div>
-    <script type="module" src="app.js"></script>
-</body>
-</html>

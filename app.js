@@ -1,88 +1,129 @@
+// 1. IMPORT FIREBASE SDK
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { 
+    getAuth, 
+    signInWithEmailAndPassword, 
+    createUserWithEmailAndPassword, 
+    sendPasswordResetEmail,
+    onAuthStateChanged,
+    signOut 
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { 
+    getFirestore, 
+    doc, 
+    setDoc, 
+    getDoc 
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+// 2. KONFIGURASI FIREBASE (Ganti dengan milikmu!)
 const firebaseConfig = {
-    apiKey: "AIzaSyBOBoKSfYRz_3z__n0CPGplfLh7I2Qku_I",
-    authDomain: "academysawit.firebaseapp.com",
-    projectId: "academysawit",
-    storageBucket: "academysawit.firebasestorage.app",
-    messagingSenderId: "144501931796",
-    appId: "1:144501931796:web:33ed8b6131a21bf9dacc01"
+    apiKey: "AIzaSy...",
+    authDomain: "zenith-asset.firebaseapp.com",
+    projectId: "zenith-asset",
+    storageBucket: "zenith-asset.appspot.com",
+    messagingSenderId: "123456789",
+    appId: "1:1234567:web:abcdef"
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// FIX 1: Login tetap tersimpan meskipun browser ditutup
-setPersistence(auth, browserLocalPersistence);
-
-// --- FUNGSI AUTH ---
+// --- FUNGSI REGISTRASI ---
 window.handleRegister = async () => {
     const name = document.getElementById('regName').value;
     const email = document.getElementById('regEmail').value;
-    const phone = document.getElementById('regPhone').value;
     const pass = document.getElementById('regPass').value;
 
-    if (!name || !email || !phone || !pass) return alert("Lengkapi data!");
+    if (!name || !email || !pass) return alert("Mohon lengkapi semua kolom!");
+    if (pass.length < 6) return alert("Password minimal 6 karakter!");
+
     try {
-        const res = await createUserWithEmailAndPassword(auth, email, pass);
-        await setDoc(doc(db, "members", res.user.uid), {
-            name, email, phone, role: "NEWBIE", createdAt: new Date()
+        const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
+        const user = userCredential.user;
+
+        // Simpan data tambahan ke Firestore
+        await setDoc(doc(db, "members", user.uid), {
+            name: name,
+            email: email,
+            role: "NEWBIE", // Default role
+            memberID: "ZNTH-" + Math.floor(Math.random() * 90000 + 10000),
+            createdAt: new Date()
         });
+
+        alert("Registrasi Berhasil!");
         window.location.href = "profile.html";
-    } catch (e) { alert(e.message); }
+    } catch (error) {
+        alert("Gagal Daftar: " + error.message);
+    }
 };
 
+// --- FUNGSI LOGIN ---
 window.handleLogin = async () => {
     const email = document.getElementById('logEmail').value;
     const pass = document.getElementById('logPass').value;
+
+    if (!email || !pass) return alert("Masukkan email dan password!");
+
     try {
         await signInWithEmailAndPassword(auth, email, pass);
         window.location.href = "profile.html";
-    } catch (e) { alert("Email/Password Salah!"); }
+    } catch (error) {
+        alert("Login Gagal: Periksa kembali email/password Anda.");
+    }
 };
 
-window.logout = () => signOut(auth).then(() => {
-    localStorage.removeItem('userCache');
-    window.location.href = "index.html";
-});
+// --- FUNGSI LUPA PASSWORD ---
+window.handleResetPassword = async () => {
+    const email = document.getElementById('resetEmail').value;
+    if (!email) return alert("Masukkan email Anda!");
 
-// --- MONITORING USER & NAVIGASI DINAMIS ---
+    try {
+        await sendPasswordResetEmail(auth, email);
+        alert("Link reset password telah dikirim ke email! Cek inbox/spam.");
+        location.reload();
+    } catch (error) {
+        alert("Gagal: " + error.message);
+    }
+};
+
+// --- FUNGSI LOGOUT ---
+window.logout = () => {
+    signOut(auth).then(() => {
+        window.location.href = "login.html";
+    });
+};
+
+// --- MONITORING STATUS USER & DISPLAY DATA ---
 onAuthStateChanged(auth, async (user) => {
-    const authBtn = document.getElementById('auth-nav-btn');
     const path = window.location.pathname;
 
     if (user) {
-        if (authBtn) { authBtn.innerText = "DASHBOARD"; authBtn.href = "profile.html"; }
+        // Jika user di halaman profile, ambil data dari Firestore
+        if (path.includes("profile.html")) {
+            const docRef = doc(db, "members", user.uid);
+            const docSnap = await getDoc(docRef);
 
-        // Load Cache agar ID Card instan
-        const cache = localStorage.getItem('userCache');
-        if (cache) renderIDCard(JSON.parse(cache), user.uid);
-
-        // Ambil Data Terbaru
-        const snap = await getDoc(doc(db, "members", user.uid));
-        if (snap.exists()) {
-            const data = snap.data();
-            localStorage.setItem('userCache', JSON.stringify(data));
-            renderIDCard(data, user.uid);
-            updateRoleUI(data.role);
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                document.getElementById('userNameDisplay').innerText = data.name;
+                document.getElementById('memberIDDisplay').innerText = data.memberID;
+                document.getElementById('userRoleDisplay').innerText = data.role;
+                // Untuk menu settings
+                if(document.getElementById('myAccountID')) {
+                    document.getElementById('myAccountID').value = data.memberID;
+                }
+            }
+        }
+        // Jika user sudah login tapi di halaman login.html, lempar ke profile
+        if (path.includes("login.html")) {
+            window.location.href = "profile.html";
         }
     } else {
-        if (authBtn) { authBtn.innerText = "STUDENT LOGIN"; authBtn.href = "login.html"; }
-        if (path.includes("profile.html")) window.location.href = "login.html";
+        // Jika user BELUM login dan mencoba buka profile, lempar ke login
+        if (path.includes("profile.html")) {
+            window.location.href = "login.html";
+        }
     }
 });
-
-function renderIDCard(data, uid) {
-    if(document.getElementById('userNameDisplay')) document.getElementById('userNameDisplay').innerText = data.name;
-    if(document.getElementById('userRoleDisplay')) document.getElementById('userRoleDisplay').innerText = data.role;
-    if(document.getElementById('memberIDDisplay')) document.getElementById('memberIDDisplay').innerText = `ZNTH-${uid.substring(0,5).toUpperCase()}`;
-    if(document.getElementById('myAccountID')) document.getElementById('myAccountID').value = uid;
-}
-
-function updateRoleUI(role) {
-    if (role !== "NEWBIE") document.querySelectorAll('.student-only').forEach(el => el.style.display = "block");
-    if (role === "OWNER") document.getElementById('owner-area').style.display = "block";
-}
