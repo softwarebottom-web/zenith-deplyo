@@ -1,4 +1,4 @@
-// 1. IMPORT FIREBASE SDK DENGAN CDN (WAJIB UNTUK BROWSER)
+// 1. IMPORT FIREBASE SDK (CDN VERSION)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { 
     getAuth, 
@@ -15,7 +15,7 @@ import {
     getDoc 
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// 2. KONFIGURASI FIREBASE KAMU
+// 2. KONFIGURASI FIREBASE
 const firebaseConfig = {
   apiKey: "AIzaSyBOBoKSfYRz_3z__n0CPGplfLh7I2Qku_I",
   authDomain: "academysawit.firebaseapp.com",
@@ -31,21 +31,21 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// --- FUNGSI LOGIN ---
+// --- A. FUNGSI LOGIN ---
 window.handleLogin = async () => {
     const email = document.getElementById('logEmail').value;
     const pass = document.getElementById('logPass').value;
-    if (!email || !pass) return alert("Masukan email dan password!");
+    if (!email || !pass) return alert("Masukkan email dan password!");
 
     try {
         await signInWithEmailAndPassword(auth, email, pass);
         window.location.href = "profile.html";
     } catch (error) {
-        alert("Login Gagal: " + error.message);
+        alert("Login Gagal: Email atau Password salah.");
     }
 };
 
-// --- FUNGSI DAFTAR ---
+// --- B. FUNGSI DAFTAR ---
 window.handleRegister = async () => {
     const name = document.getElementById('regName').value;
     const email = document.getElementById('regEmail').value;
@@ -58,7 +58,7 @@ window.handleRegister = async () => {
         const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
         const user = userCredential.user;
 
-        // Simpan data ke Firestore
+        // Simpan data ke Firestore (Database)
         await setDoc(doc(db, "members", user.uid), {
             name: name,
             email: email,
@@ -74,31 +74,36 @@ window.handleRegister = async () => {
     }
 };
 
-// --- FUNGSI RESET PASSWORD ---
+// --- C. FUNGSI RESET PASSWORD (FIXED) ---
 window.handleResetPassword = async () => {
     const email = document.getElementById('resetEmail').value;
-    if (!email) return alert("Masukan email!");
+    if (!email) return alert("Masukkan email terdaftar!");
 
     try {
         await sendPasswordResetEmail(auth, email);
-        alert("Link reset sudah dikirim ke email!");
-        location.reload();
+        alert("Link reset password telah dikirim ke email! Cek Inbox atau folder SPAM.");
+        window.location.reload(); 
     } catch (error) {
-        alert("Error: " + error.message);
+        if(error.code === "auth/user-not-found") {
+            alert("Email tidak ditemukan!");
+        } else {
+            alert("Error: " + error.message);
+        }
     }
 };
 
-// --- FUNGSI LOGOUT ---
+// --- D. FUNGSI LOGOUT ---
 window.logout = () => {
     signOut(auth).then(() => {
         window.location.href = "login.html";
     });
 };
 
-// --- CEK STATUS LOGIN ---
+// --- E. MONITOR STATUS LOGIN ---
 onAuthStateChanged(auth, async (user) => {
     const path = window.location.pathname;
     if (user) {
+        // Tampilkan data jika di halaman profile
         if (path.includes("profile.html")) {
             const docRef = doc(db, "members", user.uid);
             const docSnap = await getDoc(docRef);
@@ -109,8 +114,10 @@ onAuthStateChanged(auth, async (user) => {
                 document.getElementById('userRoleDisplay').innerText = data.role;
             }
         }
+        // Redirect jika sudah login tapi akses login.html
         if (path.includes("login.html")) window.location.href = "profile.html";
     } else {
+        // Redirect jika belum login tapi akses profile.html
         if (path.includes("profile.html")) window.location.href = "login.html";
     }
 });
