@@ -17,24 +17,40 @@
             <p style="text-align:right; margin-bottom:15px;">
                 <span onclick="showArea('reset')" style="color:#888; font-size:12px; cursor:pointer;">Lupa Password?</span>
             </p>
-            <button class="btn-auth" onclick="handleLogin()">MASUK</button>
-            <p style="margin-top:20px; font-size:13px; color:#888;">Belum punya akun? <span style="color:var(--primary); cursor:pointer;" onclick="showArea('reg')">Daftar</span></p>
+            <button class="btn-auth" id="btnLogin" onclick="handleLogin()">MASUK</button>
+            <p style="margin-top:20px; font-size:13px; color:#888;">Belum punya akun? <span style="color:#00f2ff; cursor:pointer; font-weight:bold;" onclick="showArea('reg')">Daftar</span></p>
         </div>
 
         <div id="reg-area" style="display:none;">
             <h3>Create Account</h3>
             <input type="text" id="regName" placeholder="Nama Lengkap">
-            <input type="email" id="regEmail" placeholder="Email">
+            <input type="email" id="regEmail" placeholder="Email Aktif">
             <input type="password" id="regPass" placeholder="Password (Min. 6 Karakter)">
-            <button class="btn-auth" onclick="handleRegister()">DAFTAR</button>
-            <p style="margin-top:20px; font-size:13px; color:#888;">Sudah punya akun? <span style="color:var(--primary); cursor:pointer;" onclick="showArea('login')">Login</span></p>
+            <button class="btn-auth" id="btnReg" onclick="handleRegister()">DAFTAR SEKARANG</button>
+            <p style="margin-top:20px; font-size:13px; color:#888;">Sudah punya akun? <span style="color:#00f2ff; cursor:pointer; font-weight:bold;" onclick="showArea('login')">Login</span></p>
         </div>
 
         <div id="reset-area" style="display:none;">
             <h3>Reset Password</h3>
-            <p style="font-size:12px; color:#888; margin-bottom:15px;">Kami akan mengirimkan link reset ke email Anda.</p>
+            <p style="font-size:12px; color:#888; margin-bottom:15px;">Link reset akan dikirim ke email Anda.</p>
             <input type="email" id="resetEmail" placeholder="Masukkan Email Terdaftar">
-            <button class="btn-auth" onclick="handleResetPassword()">KIRIM LINK RESET</button>
-            <p style="margin-top:20px; font-size:13px;"><span style="color:var(--primary); cursor:pointer;" onclick="showArea('login')">Kembali ke Login</span></p>
+            <button class="btn-auth" id="btnReset" onclick="handleResetPassword()">KIRIM LINK</button>
+            <p style="margin-top:20px; font-size:13px;"><span style="color:#00f2ff; cursor:pointer;" onclick="showArea('login')">Kembali ke Login</span></p>
         </div>
     </div>
+
+    <script type="module" src="app.js"></script>
+    <script>
+        // Fungsi perpindahan tampilan form
+        function showArea(area) {
+            document.getElementById('login-area').style.display = 'none';
+            document.getElementById('reg-area').style.display = 'none';
+            document.getElementById('reset-area').style.display = 'none';
+
+            if(area === 'login') document.getElementById('login-area').style.display = 'block';
+            if(area === 'reg') document.getElementById('reg-area').style.display = 'block';
+            if(area === 'reset') document.getElementById('reset-area').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
