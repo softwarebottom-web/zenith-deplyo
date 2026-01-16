@@ -8,58 +8,37 @@
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 </head>
 <body>
-    <div class="dashboard-wrapper">
-        <nav class="sidebar">
-            <div class="logo">ZENITH<span>ASSET</span></div>
-            <ul class="side-menu">
-                <li onclick="tab('dash')" id="t-dash" class="active"><i class="ri-dashboard-line"></i> Dashboard</li>
-                <li onclick="tab('sett')" id="t-sett"><i class="ri-settings-3-line"></i> Settings</li>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="logo" onclick="window.location.href='index.html'">ZENITH<span>ASSET</span></div>
+            <ul style="list-style:none; margin-top:40px;">
+                <li style="padding:15px; cursor:pointer; color:var(--primary);" onclick="window.location.href='index.html'"><i class="ri-home-4-line"></i> Landing Page</li>
+                <li style="padding:15px; cursor:pointer;" onclick="window.location.href='course.html'"><i class="ri-play-circle-line"></i> Course Area</li>
+                <li style="padding:15px; cursor:pointer; color:#ff4d4d;" onclick="logout()"><i class="ri-logout-box-line"></i> Logout</li>
             </ul>
-            <button class="btn-logout" onclick="logout()"><i class="ri-logout-box-line"></i> Logout</button>
-        </nav>
+        </aside>
 
-        <main class="content">
-            <div id="tab-dash">
-                <h2 class="welcome-text">Halo, <span id="userName">...</span></h2>
-                <div class="member-card">
-                    <p>MEMBER ID</p>
-                    <h3 id="memberID">LOADING...</h3>
-                    <span class="badge" id="userRole">NEWBIE</span>
-                </div>
-                <div class="lock-screen">
-                    <i class="ri-lock-2-line"></i>
-                    <p>Materi kelas belum terbuka. Silakan lakukan aktivasi via WhatsApp.</p>
+        <main class="main-content">
+            <h2 style="margin-bottom:20px;">Welcome, <span id="userNameDisplay" style="color:var(--primary);">...</span></h2>
+            <div class="grid-3">
+                <div style="background:var(--card); padding:20px; border-radius:10px; border:1px solid var(--border);">
+                    <p style="font-size:12px; color:gray;">ROLE STATUS</p>
+                    <h3 id="userRoleDisplay">...</h3>
                 </div>
             </div>
 
-            <div id="tab-sett" style="display:none;">
-                <h2>Account Settings</h2>
-                <div class="settings-box">
-                    <label>ID Account Anda:</label>
-                    <div class="copy-box">
-                        <input type="text" id="accIDInput" readonly>
-                        <button onclick="copyID()">Salin ID</button>
-                    </div>
-                    <p style="font-size:12px; color:var(--text-dim); margin-top:20px;">Butuh bantuan? <a href="https://wa.me/62812345678" style="color:var(--primary);">Hubungi Admin</a></p>
-                </div>
+            <div id="adminPanel" style="display:none; margin-top:40px; padding:30px; border:1px dashed var(--primary); border-radius:15px;">
+                <h3 style="margin-bottom:20px;">Owner Panel: Upload Materi</h3>
+                <input type="text" id="fileTitle" placeholder="Judul Materi">
+                <select id="fileType">
+                    <option value="video">Kategori: VIDEO</option>
+                    <option value="ebook">Kategori: E-BOOK (PDF)</option>
+                </select>
+                <input type="file" id="fileInput">
+                <button class="btn-auth" id="btnUpload" onclick="handleUpload()">UPLOAD SEKARANG</button>
             </div>
         </main>
     </div>
-
     <script type="module" src="app.js"></script>
-    <script>
-        function tab(name) {
-            document.getElementById('tab-dash').style.display = name === 'dash' ? 'block' : 'none';
-            document.getElementById('tab-sett').style.display = name === 'sett' ? 'block' : 'none';
-            document.getElementById('t-dash').className = name === 'dash' ? 'active' : '';
-            document.getElementById('t-sett').className = name === 'sett' ? 'active' : '';
-        }
-        function copyID() {
-            const input = document.getElementById('accIDInput');
-            input.select();
-            document.execCommand("copy");
-            alert("ID Berhasil disalin!");
-        }
-    </script>
 </body>
 </html>

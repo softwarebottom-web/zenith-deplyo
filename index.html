@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zenith Asset Academy</title>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -10,117 +10,21 @@
 <body>
     <header>
         <div class="logo">ZENITH<span>ASSET</span></div>
-        <div class="menu-toggle" id="mobile-menu"><i class="ri-menu-3-line"></i></div>
-        <nav class="nav-links" id="nav-list">
+        <nav class="nav-links">
             <a href="#features">Keunggulan</a>
             <a href="#silabus">Kurikulum</a>
             <a href="#pricing">Harga</a>
-            <a href="#faq">FAQ</a>
-            <a href="login.html" class="btn-dashboard-nav">DASHBOARD</a>
+            <span id="auth-nav-area">
+                <a href="login.html" class="btn-dashboard-nav">DASHBOARD</a>
+            </span>
         </nav>
     </header>
 
-    <section class="hero">
-        <div class="hero-container">
-            <p class="batch-badge">Batch 2026 is Open</p>
-            <h1>Level Up Your <br><span>Trading Intelligence.</span></h1>
-            <p class="hero-desc">Kuasai Market Analysis & PPOIL Strategy dalam satu ekosistem eksklusif.</p>
-            <div style="display:flex; gap:15px; justify-content:center; flex-wrap: wrap;">
-                <a href="#pricing" class="btn-auth" style="width:auto; padding:12px 30px; text-decoration: none;">DAFTAR SEKARANG</a>
-                <a href="#" style="color:#5865F2; text-decoration:none; font-weight:bold; display:flex; align-items:center; gap:5px;"><i class="ri-discord-fill"></i> DISCORD</a>
-            </div>
-        </div>
+    <section class="hero" style="text-align:center; padding: 100px 20px;">
+        <h1>Level Up Your <br><span>Trading Intelligence.</span></h1>
+        <p style="color:var(--text-dim); margin-top:20px;">Kuasai Market Analysis & PPOIL Strategy.</p>
     </section>
 
-    <section id="features" class="section-padding">
-        <h2 style="margin-bottom:40px;">Mengapa Belajar di <span style="color:var(--primary);">Zenith?</span></h2>
-        <div class="grid-3">
-            <div class="feature-card">
-                <i class="ri-video-line"></i>
-                <h3>40+ Video Modul</h3>
-                <p>Materi video high-quality yang bisa diakses selamanya kapan saja.</p>
-            </div>
-            <div class="feature-card">
-                <i class="ri-book-read-line"></i>
-                <h3>E-Book Eksklusif</h3>
-                <p>Panduan strategi PPOIL dalam bentuk digital untuk belajar offline.</p>
-            </div>
-            <div class="feature-card">
-                <i class="ri-radar-line"></i>
-                <h3>Analisis Market</h3>
-                <p>Update analisis market harian untuk mempertajam mata trading Anda.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="silabus" class="section-padding" style="background:#050505;">
-        <h2 style="margin-bottom:40px;">Kurikulum <span>Pembelajaran</span></h2>
-        <div style="max-width: 800px; margin: 0 auto; text-align: left;">
-            <div style="border-bottom: 1px solid #1a1a1a; padding: 20px 0;">
-                <h4 style="color:var(--primary);">01. Foundation</h4>
-                <p style="color:var(--text-dim); font-size: 14px;">Memahami Market Structure & Liquidity Void.</p>
-            </div>
-            <div style="border-bottom: 1px solid #1a1a1a; padding: 20px 0;">
-                <h4 style="color:var(--primary);">02. PPOIL Strategy</h4>
-                <p style="color:var(--text-dim); font-size: 14px;">Entry point presisi menggunakan algoritma PPOIL.</p>
-            </div>
-            <div style="border-bottom: 1px solid #1a1a1a; padding: 20px 0;">
-                <h4 style="color:var(--primary);">03. Risk Management</h4>
-                <p style="color:var(--text-dim); font-size: 14px;">Psikologi trading dan pengelolaan dana secara profesional.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="pricing" class="section-padding">
-        <h2>Investasi <span>Edukasi</span></h2>
-        <div class="pricing-card" style="margin-top:40px;">
-            <p style="letter-spacing: 2px;">LIFETIME ACCESS</p>
-            <div class="price">Rp 200.000</div>
-            <ul style="text-align: left; list-style: none; color: var(--text-dim); font-size: 13px; margin-bottom: 30px;">
-                <li style="margin-bottom: 10px;"><i class="ri-checkbox-circle-fill" style="color:var(--primary);"></i> Full Course & E-Book</li>
-                <li style="margin-bottom: 10px;"><i class="ri-checkbox-circle-fill" style="color:var(--primary);"></i> Group Analisis Eksklusif</li>
-                <li style="margin-bottom: 10px;"><i class="ri-checkbox-circle-fill" style="color:var(--primary);"></i> Jaminan Update Materi</li>
-            </ul>
-            <a href="https://wa.me/6281234567890?text=Halo%20Admin%20Zenith,%20saya%20ingin%20daftar%20kelas%20Lifetime%20Access%20Rp%20200k" target="_blank" class="btn-auth" style="text-decoration:none; display: block;">BELI VIA WHATSAPP</a>
-        </div>
-
-        <div class="guarantee" style="max-width:700px; margin: 50px auto 0;">
-            <h4 style="color:var(--primary);"><i class="ri-shield-check-line"></i> Jaminan Kualitas</h4>
-            <p style="font-size:13px; color:var(--text-dim);">Dapatkan materi paling update dan bimbingan sampai paham. Jika materi tidak sesuai, tim kami siap membantu asistensi 1-on-1.</p>
-        </div>
-    </section>
-
-    <section id="faq" class="section-padding" style="background:#050505;">
-        <h2>F.A.<span>Q</span></h2>
-        <div style="max-width:700px; margin: 40px auto; text-align: left;">
-            <details style="background:var(--card); padding: 15px; border-radius: 10px; margin-bottom: 10px; cursor: pointer;">
-                <summary style="font-weight: bold; color: var(--primary);">Apakah pemula bisa ikut?</summary>
-                <p style="color: var(--text-dim); font-size: 13px; margin-top: 10px;">Ya, materi disusun dari dasar (Basic) hingga mahir (Advance).</p>
-            </details>
-            <details style="background:var(--card); padding: 15px; border-radius: 10px; margin-bottom: 10px; cursor: pointer;">
-                <summary style="font-weight: bold; color: var(--primary);">Berapa lama akses materinya?</summary>
-                <p style="color: var(--text-dim); font-size: 13px; margin-top: 10px;">Akses bersifat Lifetime (Selamanya) termasuk update materi di masa depan.</p>
-            </details>
-        </div>
-    </section>
-
-    <footer style="padding: 40px; text-align: center; border-top: 1px solid #1a1a1a; color: #444; font-size: 12px;">
-        &copy; 2026 Zenith Asset Academy. All Rights Reserved.
-    </footer>
-
-    <script>
-        const menuToggle = document.getElementById('mobile-menu');
-        const navList = document.getElementById('nav-list');
-        menuToggle.onclick = () => {
-            navList.classList.toggle('active');
-            menuToggle.querySelector('i').classList.toggle('ri-close-line');
-        };
-        // Menutup menu saat link diklik
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.onclick = () => {
-                navList.classList.remove('active');
-            }
-        });
-    </script>
+    <script type="module" src="app.js"></script>
 </body>
 </html>
