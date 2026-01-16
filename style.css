@@ -61,3 +61,33 @@ input {
 
 /* UTILS */
 .section-padding { padding: 100px 6%; text-align: center; }
+
+/* DASHBOARD LAYOUT */
+.dashboard-wrapper { display: flex; min-height: 100vh; }
+.sidebar { width: 260px; background: var(--card); border-right: 1px solid var(--border); padding: 30px 20px; display: flex; flex-direction: column; }
+.content { flex: 1; padding: 40px; }
+
+.side-menu { list-style: none; margin-top: 50px; flex: 1; }
+.side-menu li { padding: 15px; border-radius: 10px; cursor: pointer; color: var(--text-dim); transition: 0.3s; margin-bottom: 5px; }
+.side-menu li.active { background: rgba(0, 242, 255, 0.1); color: var(--primary); }
+.side-menu li:hover { color: var(--primary); }
+
+.member-card { background: #111; padding: 30px; border-radius: 20px; border-left: 4px solid var(--primary); margin-top: 20px; }
+.member-card p { font-size: 12px; color: var(--text-dim); letter-spacing: 1px; }
+.member-card h3 { font-size: 1.8rem; margin: 10px 0; }
+.badge { background: var(--primary); color: black; font-size: 10px; padding: 4px 10px; border-radius: 5px; font-weight: 800; }
+
+.lock-screen { margin-top: 40px; text-align: center; border: 1px dashed var(--border); padding: 50px; border-radius: 20px; color: var(--text-dim); }
+.lock-screen i { font-size: 3rem; margin-bottom: 10px; display: block; }
+
+.btn-logout { background: none; border: 1px solid #ff4d4d; color: #ff4d4d; padding: 10px; border-radius: 8px; cursor: pointer; }
+
+/* COPY BOX */
+.copy-box { display: flex; gap: 10px; margin-top: 10px; }
+.copy-box input { flex: 1; margin-bottom: 0; }
+.copy-box button { background: var(--primary); border: none; padding: 0 20px; border-radius: 10px; font-weight: bold; cursor: pointer; }
+
+@media (max-width: 768px) {
+    .dashboard-wrapper { flex-direction: column; }
+    .sidebar { width: 100%; height: auto; }
+}
