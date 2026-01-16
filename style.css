@@ -91,3 +91,43 @@ input {
     .dashboard-wrapper { flex-direction: column; }
     .sidebar { width: 100%; height: auto; }
 }
+
+/* Styling tambahan untuk Card Fitur */
+.feature-card {
+    background: var(--card); 
+    padding: 30px; 
+    border-radius: 15px; 
+    text-align: left;
+    border: 1px solid #1a1a1a;
+    transition: 0.3s;
+}
+.feature-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-5px);
+}
+.feature-card i {
+    color: var(--primary); 
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    display: block;
+}
+.feature-card h3 {
+    margin-bottom: 10px;
+}
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+/* Styling Details/FAQ */
+details summary {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+}
+details summary::after {
+    content: '+';
+}
+details[open] summary::after {
+    content: '-';
+}
